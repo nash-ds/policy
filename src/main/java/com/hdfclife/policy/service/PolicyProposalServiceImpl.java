@@ -52,7 +52,7 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
         if(policies.containsKey(policyId)) {
             PolicyProposal pp = policies.get(policyId);
             validatePolicy(pp);
-            pp.setStatus("Submitted");
+            pp.setStatus("Active");
             int policyNumber = policyCounter++;
             pp.setPolicyNumber(policyNumber);
             policies.put(policyId, pp);

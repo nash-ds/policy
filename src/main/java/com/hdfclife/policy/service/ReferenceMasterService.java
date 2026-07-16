@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class ReferenceMasterService {
 
     private final List<Integer> policyTerms  =  List.of(10, 15, 20, 25, 30);
-    private final List<String> paymentFrequencies = List.of("Monthly", "Quarterly", "Half-Yearly", "Yearly");
+    private final List<String> paymentFrequencies = List.of("MONTHLY", "QUARTERLY", "HALF-YEARLY", "YEARLY");
 
     public List<?> getReferenceMasterList(String category){
         if(category.equalsIgnoreCase("policyterm")){

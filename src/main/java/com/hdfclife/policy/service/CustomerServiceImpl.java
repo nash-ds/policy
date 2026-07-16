@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createCustomer(Customer customer) {
 
-        validateCustomer(customer);
+        validateCustomer(customer,null);
         UUID id = UUID.randomUUID();
         customer.setCustomerId(id);
         customers.put(id, customer);
@@ -44,15 +44,38 @@ public class CustomerServiceImpl implements CustomerService {
     
     @Override
     public Customer updateCustomer(UUID id, Customer customer) {
-        validateCustomer(customer);
+        validateCustomer(customer, id);
         if(customers.containsKey(id)) {
+            customer.setCustomerId(id);
             customers.put(id, customer);
             return customer;
         }
         throw new IllegalArgumentException("Customer not found.");
     }
     
-    private void validateCustomer(Customer customer) {
+    private void validateCustomer(Customer customer, UUID id) {
+        for (Customer existing : customers.values()) {
+
+            if (id != null && existing.getCustomerId().equals(id)) {
+                continue;
+            }
+
+            if (existing.getPhno().equals(customer.getPhno())) {
+                throw new IllegalArgumentException("Phone number already exists.");
+            }
+
+            if (existing.getEmail().equalsIgnoreCase(customer.getEmail())) {
+                throw new IllegalArgumentException("Email already exists.");
+            }
+
+            if (customer.getPan() != null &&
+                existing.getPan() != null &&
+                existing.getPan().equalsIgnoreCase(customer.getPan())) {
+
+                throw new IllegalArgumentException("PAN already exists.");
+            }
+        }
+
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Name is required.");
         }
@@ -64,24 +87,13 @@ public class CustomerServiceImpl implements CustomerService {
         if (phone == null || !phone.matches("\\d{10}")) {
             throw new IllegalArgumentException("Phone number must contain exactly 10 digits.");
         }
-        boolean phoneExists = customers.values().stream()
-                .anyMatch(c -> c.getPhno().equals(customer.getPhno()));
 
-        if (phoneExists) {
-            throw new IllegalArgumentException("Phone number already exists.");
-        }
         String email = customer.getEmail();
 
         if (email == null ||
             !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
 
             throw new IllegalArgumentException("Invalid email.");
-        }
-        boolean emailExists = customers.values().stream()
-                .anyMatch(c -> c.getEmail().equalsIgnoreCase(customer.getEmail()));
-
-        if (emailExists) {
-            throw new IllegalArgumentException("Email already exists.");
         }
         if (customer.getAddress() == null ||
             customer.getAddress().trim().isEmpty()) {
