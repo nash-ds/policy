@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         validateCustomer(customer);
         UUID id = UUID.randomUUID();
-        customer.setCustomer_id(id);
+        customer.setCustomerId(id);
         customers.put(id, customer);
         return customer;
     }

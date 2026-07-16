@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Policy {
+public class PolicyProposal {
 
     @Getter
     @Setter
@@ -24,16 +24,16 @@ public class Policy {
         private int age;
     }
 
-    private UUID policy_id;
-    private UUID cust_id;
-    private String policy_name;
-    private Integer policyTerm;
-    private String policy_freq;
-    private double policy_premium;
-    private double sum;
+    private UUID policyId;
+    private UUID customerId;
+    private String policyName;
+    private int policyTerm;
+    private String policyFreq;
+    private int policyPremium;
+    private int sum;
     private Nominee nominee;
-    private Status status;
-    private String policynumber;
-    private LocalDateTime applydate;
-    private LocalDateTime issuedate;
+    private String status;
+    private int policyNumber;
+    private LocalDateTime applyDate;
+    private LocalDateTime maturityDate;
 }

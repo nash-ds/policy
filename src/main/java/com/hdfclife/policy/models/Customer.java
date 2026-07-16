@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Customer {
     
-    private UUID customer_id;
+    private UUID customerId;
     private String name;
     private int age;
     private String phno;

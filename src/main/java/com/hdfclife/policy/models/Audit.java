@@ -11,9 +11,9 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Audit {
-    private UUID auditid;
-    private UUID policy_id;
-    private UUID cust_id;
+    private UUID auditId;
+    private UUID policyId;
+    private UUID custId;
     private String action;
     private String module;
     private String timestamp;
