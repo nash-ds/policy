@@ -1,16 +1,27 @@
 package com.hdfclife.policy.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
+import com.hdfclife.policy.models.Audit;
+
+@Service
 public class AuditServiceImpl implements AuditService{
     private final List<Audit> audits = new ArrayList<>();
     
     @Override
-    public List<String> log(Audit audit) {
+    public void log(Audit audit) {
         audit.setAuditId(UUID.randomUUID());
         audit.setTimestamp(LocalDateTime.now());
-        String formatted_audit = String.format("Audit ID: %s, Policy ID: %s, Customer ID: %s, Action: %s, Module: %s, Timestamp: %s",
-                audit.getAuditId(), audit.getPolicyId(), audit.getCustId(), audit.getAction(), audit.getModule(),
-                audit.getTimestamp());
         audits.add(audit);
-        return formatted_audit;
+    }
+
+    @Override
+    public List<Audit> getAllAudits() {
+        return new ArrayList<>(audits);
     }
 }
