@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.hdfclife.policy.exception.ValidationException;
 import com.hdfclife.policy.models.Audit;
 import com.hdfclife.policy.models.Customer;
 import com.hdfclife.policy.models.PolicyProposal;
@@ -64,7 +65,7 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
             auditservice.log(audit);
             return pp;
         }
-        throw new IllegalArgumentException("Policy not found.");
+        throw new ValidationException("Policy not found.");
     }
 
     @Override
@@ -72,7 +73,7 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
         if(policies.containsKey(policyId)) {
             return policies.get(policyId);
         }
-        throw new IllegalArgumentException("Policy not found.");
+        throw new ValidationException("Policy not found.");
     }
 
     private void validatePolicy(ProposalRequest prq) {
@@ -95,20 +96,20 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
 
     private Customer validateCustomer(UUID customerId) {
         if (customerId == null) {
-            throw new IllegalArgumentException("Customer ID is required.");
+            throw new ValidationException("Customer ID is required.");
         }
 
         Customer customer = customerService.getCustomerById(customerId);
 
         if (customer == null) {
-            throw new IllegalArgumentException("Customer does not exist.");
+            throw new ValidationException("Customer does not exist.");
         }
         return customer;
     }
 
     private void validatePolicyName(String policyName) {
         if (policyName == null || policyName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Policy name is required.");
+            throw new ValidationException("Policy name is required.");
         }
     }
 
@@ -120,10 +121,10 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
             nominee.getRelation().trim().isEmpty() ||
             nominee.getAge() <= 0) {
 
-            throw new IllegalArgumentException("Nominee details are invalid.");
+            throw new ValidationException("Nominee details are invalid.");
         }
         if (customer.getName().equalsIgnoreCase(nominee.getName())) {
-            throw new IllegalArgumentException("Nominee cannot be the same as the customer.");
+            throw new ValidationException("Nominee cannot be the same as the customer.");
         }
     }
 
@@ -135,22 +136,22 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
                 .toList();
 
         if (!validTerms.contains(policyTerm)) {
-            throw new IllegalArgumentException("Invalid policy term.");
+            throw new ValidationException("Invalid policy term.");
         }
     }
 
     private void validatePremium(int policyPremium, int sum, Customer customer) {
         if (policyPremium < 5000) {
-            throw new IllegalArgumentException("Minimum annual premium should be Rs. 5,000.");
+            throw new ValidationException("Minimum annual premium should be Rs. 5,000.");
         }
 
         if (sum < 100000 || sum > 50000000) {
-            throw new IllegalArgumentException("Sum assured must be between Rs. 1,00,000 and Rs. 5,00,00,000.");
+            throw new ValidationException("Sum assured must be between Rs. 1,00,000 and Rs. 5,00,00,000.");
         }
 
         if (policyPremium > 50000) {
             if (customer.getPan() == null || customer.getPan().trim().isEmpty()) {
-                throw new IllegalArgumentException(
+                throw new ValidationException(
                         "PAN Number is not mentioned for customer name=" + customer.getName() + " with customer id=" + customer.getCustomerId() + ".PAN is mandatory when annual premium exceeds Rs. 50,000.");
             }
         }        
@@ -166,7 +167,7 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
         if (policyFreq == null ||
             !validFrequencies.contains(policyFreq.toUpperCase())) {
 
-            throw new IllegalArgumentException("Invalid payment frequency.");
+            throw new ValidationException("Invalid payment frequency.");
         }    
     }
 }

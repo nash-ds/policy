@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.hdfclife.policy.exception.ValidationException;
 import com.hdfclife.policy.models.Customer;
 
 @Service
@@ -18,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> getAllCustomers() {
         if(customers.isEmpty()) {
-            throw new IllegalArgumentException("No customers found.");
+            throw new ValidationException("No customers found.");
         }
         return new ArrayList<>(customers.values()   );
     }
@@ -28,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
         if(customers.containsKey(id)) {
             return customers.get(id);
         }
-        throw new IllegalArgumentException("Customer not found.");
+        throw new ValidationException("Customer not found.");
     }
 
     @Override
@@ -50,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
             customers.put(id, customer);
             return customer;
         }
-        throw new IllegalArgumentException("Customer not found.");
+        throw new ValidationException("Customer not found.");
     }
     
     private void validateCustomer(Customer customer, UUID id) {
@@ -61,31 +62,31 @@ public class CustomerServiceImpl implements CustomerService {
             }
 
             if (existing.getPhno().equals(customer.getPhno())) {
-                throw new IllegalArgumentException("Phone number already exists.");
+                throw new ValidationException("Phone number already exists.");
             }
 
             if (existing.getEmail().equalsIgnoreCase(customer.getEmail())) {
-                throw new IllegalArgumentException("Email already exists.");
+                throw new ValidationException("Email already exists.");
             }
 
             if (customer.getPan() != null &&
                 existing.getPan() != null &&
                 existing.getPan().equalsIgnoreCase(customer.getPan())) {
 
-                throw new IllegalArgumentException("PAN already exists.");
+                throw new ValidationException("PAN already exists.");
             }
         }
 
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Name is required.");
+            throw new ValidationException("Name is required.");
         }
         if (customer.getAge() < 18 || customer.getAge() > 65) {
-            throw new IllegalArgumentException("Customer age must be between 18 and 65.");
+            throw new ValidationException("Customer age must be between 18 and 65.");
         }
         String phone = customer.getPhno();
 
         if (phone == null || !phone.matches("\\d{10}")) {
-            throw new IllegalArgumentException("Phone number must contain exactly 10 digits.");
+            throw new ValidationException("Phone number must contain exactly 10 digits.");
         }
 
         String email = customer.getEmail();
@@ -93,12 +94,12 @@ public class CustomerServiceImpl implements CustomerService {
         if (email == null ||
             !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
 
-            throw new IllegalArgumentException("Invalid email.");
+            throw new ValidationException("Invalid email.");
         }
         if (customer.getAddress() == null ||
             customer.getAddress().trim().isEmpty()) {
 
-            throw new IllegalArgumentException("Address is required.");
+            throw new ValidationException("Address is required.");
         }
     }
 }

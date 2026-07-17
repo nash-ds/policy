@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.hdfclife.policy.exception.ValidationException;
+
 
 @Service
 public class ReferenceMasterService {
@@ -17,7 +19,7 @@ public class ReferenceMasterService {
         }else if(category.equalsIgnoreCase("paymentfrequency")){
             return paymentFrequencies;
         }else{
-            throw new IllegalArgumentException("Invalid category: " + category);
+            throw new ValidationException("Invalid category: " + category);
         }
     }
     
