@@ -24,17 +24,17 @@ public class ProposalController {
     private final PolicyProposalService policyProposalService;
 
     @GetMapping("/{id}")
-    public PolicyProposal getMethodName(@PathVariable UUID id) {
+    public PolicyProposal getPolicyWithId(@PathVariable UUID id) {
         return policyProposalService.getPolicy(id);
     }
 
     @PostMapping
-    public PolicyProposal postMethodName(@RequestBody ProposalRequest policy) {
+    public PolicyProposal createPolicy(@RequestBody ProposalRequest policy) {
         return policyProposalService.createPolicy(policy) ;
     }
     
     @PostMapping("/{id}/submit")
-    public PolicyProposal postMethodName(@PathVariable UUID id) {        
+    public PolicyProposal submitPolicy(@PathVariable UUID id) {        
         return policyProposalService.submitPolicy(id);
     }
     
