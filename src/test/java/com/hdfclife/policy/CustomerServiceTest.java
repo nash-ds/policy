@@ -114,4 +114,19 @@ class CustomerServiceTest {
                 ValidationException.class,
                 () -> customerService.createCustomer(customer));
     }
+    
+    @Test
+    void shouldUpdateCustomerSuccessfully() {
+
+        Customer saved = customerService.createCustomer(getValidCustomer());
+
+        Customer updated = getValidCustomer();
+        updated.setAddress("Pune");
+
+        Customer result = customerService.updateCustomer(saved.getCustomerId(), updated);
+
+        assertEquals(saved.getCustomerId(), result.getCustomerId());
+        assertEquals("Pune", result.getAddress());
+    }
+
 }
