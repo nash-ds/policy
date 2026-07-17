@@ -1,10 +1,10 @@
 package com.hdfclife.policy.service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class PolicyProposalServiceImpl implements PolicyProposalService {
         private final AuditService auditservice;
         private int policyCounter;
 
-        private final Map<UUID, PolicyProposal> policies = new HashMap<>();
+        private final Map<UUID, PolicyProposal> policies = new ConcurrentHashMap<>();
 
 
     @Override

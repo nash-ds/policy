@@ -1,10 +1,10 @@
 package com.hdfclife.policy.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import com.hdfclife.policy.models.Customer;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private final Map<UUID, Customer> customers = new HashMap<>();
+    private final Map<UUID, Customer> customers = new ConcurrentHashMap <>();
 
     @Override
     public List<Customer> getAllCustomers() {
