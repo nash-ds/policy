@@ -604,7 +604,6 @@ An integration test verifies the complete workflow:
 If this application were extended further, the following improvements would be considered:
 
 * Replace in-memory storage with a relational database using Spring Data JPA.
-* Add Bean Validation (`@Valid`, `@Email`, `@NotBlank`, etc.) at the API boundary.
 * Introduce authentication and role-based authorization.
 * Add pagination and filtering for list APIs.
 * Implement structured logging and monitoring.
